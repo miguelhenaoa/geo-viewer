@@ -35,6 +35,10 @@ export class SessionStorageService {
     }
   }
 
+  public clearStorage(): void {
+    window.sessionStorage.clear();
+  }
+
   public removeValue(key: string): void {
     const encodedKey = this.getEncodedFieldName(key);
     try {
