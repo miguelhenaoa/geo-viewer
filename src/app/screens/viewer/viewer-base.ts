@@ -7,6 +7,7 @@ import MapView from '@arcgis/core/views/MapView';
 import Print from '@arcgis/core/widgets/Print';
 import ScaleBar from '@arcgis/core/widgets/ScaleBar';
 import Search from '@arcgis/core/widgets/Search';
+import * as intl from '@arcgis/core/intl';
 
 export class ViewerBase {
   map = new Map({ basemap: 'streets-vector' });
@@ -16,6 +17,7 @@ export class ViewerBase {
   readonly longitude = -74.2478963;
 
   initializeMap(): void {
+    intl.setLocale('es');
     this.view = new MapView({
       container: 'map',
       center: [this.longitude, this.latitude],
@@ -102,7 +104,16 @@ export class ViewerBase {
       view: this.view
     });
 
+    const menuExpand = new Expand({
+      expandIconClass: 'esri-icon-menu',
+      view: this.view,
+      content: document.getElementById('menu') as Node,
+      group: 'expand',
+      expandTooltip: 'Menu'
+    });
+
     this.view.ui.add(scaleBar, 'bottom-left');
+    this.view.ui.add(menuExpand, 'top-left');
     this.view.ui.add([search, printExpand, basemapExpand, legendExpand, layerListExpand], 'top-right');
     this.view.ui.move([{ component: ['zoom'], position: 'top-right', index: 1 }]);
   }

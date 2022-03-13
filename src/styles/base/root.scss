@@ -4,5 +4,10 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+:focus {
+  outline: unset !important;
+  box-shadow: none !important;
 }
