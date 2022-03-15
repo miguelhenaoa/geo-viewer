@@ -85,8 +85,36 @@ export class UploadFileBase {
   }
 
   private addGpxToMap(featureCollection: any): Promise<any> {
-    // To do
-    return Promise.resolve();
+    const layerName = featureCollection.layers[0].featureSet.features[0].attributes.name;
+    const title = `GPX - ${layerName}`;
+    let graphics: Graphic[] = [];
+
+    const layers = featureCollection.layers.map((layer: any) => {
+      const copyright = layer.layerDefinition.copyrightText;
+      const popup = new PopupTemplate({
+        content: '${*}',
+        title: 'Atributos GPX'
+      });
+      const source = layer.featureSet.features.map((feature: Object) => {
+        return Graphic.fromJSON(feature);
+      });
+      graphics = graphics.concat(source);
+
+      return new FeatureLayer({
+        id: 'local',
+        copyright,
+        title,
+        objectIdField: 'FID',
+        source,
+        popupTemplate: popup,
+        renderer: SimpleRenderer.fromJSON(layer.layerDefinition.drawingInfo.renderer),
+        fields: layer.layerDefinition.fields.map((field: Object) => {
+          return Field.fromJSON(field);
+        })
+      });
+    });
+
+    return Promise.resolve({ layers, graphics });
   }
 
   private addShapefileToMap(featureCollection: any): Promise<any> {

@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
         items: [
           { label: 'ShapeFile', icon, command: () => this.addLayer(TypeLayer.ShapeFile) },
           { label: 'Archivo CSV', icon },
-          { label: 'Archivo GPX', icon },
+          { label: 'Archivo GPX', icon, command: () => this.addLayer(TypeLayer.Gpx) },
           { label: 'Archivo GeoJSON', icon },
           { label: 'Servicio KML', icon },
           { label: 'Servicio WMS', icon },
