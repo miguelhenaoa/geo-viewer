@@ -8,6 +8,8 @@ import PopupTemplate from '@arcgis/core/PopupTemplate';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
 import Field from '@arcgis/core/layers/support/Field';
+import { geojsonToArcGIS } from '@terraformer/arcgis';
+import { GeoJSON } from 'geojson';
 
 import { FormatLayer, TypeLayer } from '../../../../helpers/interfaces/layer-format';
 
@@ -23,7 +25,22 @@ export class UploadFileBase {
   }
 
   loadGeoJSONLayer(file: File): void {
-    // To do
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result: string | undefined = reader.result?.toString();
+      const featureCollection = JSON.parse(<string>result);
+      this.addGeoJsonToMap(featureCollection).then(
+        response => {
+          console.log(response);
+          this.isLoading = false;
+        },
+        error => {
+          console.error(error);
+          this.isLoading = false;
+        }
+      );
+    };
+    reader.readAsText(file);
   }
 
   loadGpxOrShapeFileLayer(filename: string, body: HTMLFormElement): void {
@@ -156,5 +173,33 @@ export class UploadFileBase {
         : layersInOrder.unshift(layer);
     });
     return layersInOrder;
+  }
+
+  private addGeoJsonToMap(featureCollection: any): Promise<any> {
+    try {
+      let graphics: Graphic[] = [];
+      const source = featureCollection.features.map((feature: GeoJSON) => {
+        return Graphic.fromJSON(geojsonToArcGIS(feature));
+      });
+      graphics = graphics.concat(source);
+      const fields = [
+        new Field({
+          name: 'ObjectID',
+          alias: 'ObjectID',
+          type: 'oid'
+        })
+      ];
+      const feature = new FeatureLayer({
+        id: 'local',
+        copyright: '',
+        fields,
+        source: graphics,
+        title: `GeoJSON`
+      });
+
+      return Promise.resolve({ layers: [feature], graphics });
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 }
