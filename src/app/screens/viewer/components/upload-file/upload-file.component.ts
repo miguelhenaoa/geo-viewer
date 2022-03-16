@@ -61,4 +61,8 @@ export class UploadFileComponent extends UploadFileBase {
         break;
     }
   }
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
 }

@@ -45,6 +45,7 @@ export class MenuComponent implements OnInit {
     this.dialogService.open(UploadFileComponent, {
       header: 'Cargar un archivo',
       width: DialogSize.XSmall,
+      closable: false,
       data: { type }
     });
   }

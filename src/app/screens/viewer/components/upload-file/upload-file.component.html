@@ -1,9 +1,19 @@
 <form id="uploadForm" method="post" enctype="multipart/form-data" (ngSubmit)="uploadFile($event)">
   <input type="file" name="file" id="upload-file-input" (change)="change($event)" />
-  <div fxLayout="flex" fxLayoutAlign="flex-end center" fxLayoutGap="5px">
+  <div class="actions" fxLayout="flex" fxLayoutAlign="flex-end center" fxLayoutGap="5px">
     <app-button-spinner *ngIf="isLoading"></app-button-spinner>
-    <button type="submit" color="primary" mat-raised-button [disabled]="!canSubmit || isLoading">
-      Cargar
-    </button>
+    <button
+      type="button"
+      color="primary"
+      mat-button
+      [disabled]="isLoading"
+      (click)="onClose()"
+    >CANCELAR</button>
+    <button
+      type="submit"
+      color="primary"
+      mat-raised-button
+      [disabled]="!canSubmit || isLoading"
+    >CARGAR</button>
   </div>
 </form>
