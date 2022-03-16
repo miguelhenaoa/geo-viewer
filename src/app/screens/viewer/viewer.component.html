@@ -1,4 +1,8 @@
 <!-- Map container -->
 <div id="map"></div>
 
-<app-menu id="menu" class="esri-widget menu"></app-menu>
+<app-menu
+  id="menu"
+  class="esri-widget menu"
+  (addLayer)="addLayerToMap($event)"
+></app-menu>

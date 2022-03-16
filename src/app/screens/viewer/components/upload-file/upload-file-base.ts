@@ -1,6 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
 import esriRequest from '@arcgis/core/request';
 import Graphic from '@arcgis/core/Graphic';
@@ -12,13 +13,14 @@ import { geojsonToArcGIS } from '@terraformer/arcgis';
 import { GeoJSON } from 'geojson';
 
 import { FormatLayer, TypeLayer } from '../../../../helpers/interfaces/layer-format';
+import { FileLayerResponse } from '../../../../helpers/interfaces/file-layer-response';
 
 export class UploadFileBase {
   format!: FormatLayer;
   isFormat = false;
   isLoading = false;
 
-  constructor() {}
+  constructor(private dialogRef: DynamicDialogRef) {}
 
   loadCsvLayer(file: File, coordinate: string): void {
     // To do
@@ -31,7 +33,7 @@ export class UploadFileBase {
       const featureCollection = JSON.parse(<string>result);
       this.addGeoJsonToMap(featureCollection).then(
         response => {
-          console.log(response);
+          this.dialogRef.close({ update: true, ...response });
           this.isLoading = false;
         },
         error => {
@@ -54,7 +56,7 @@ export class UploadFileBase {
               : this.addGpxToMap(featureCollection);
 
           callback.then(response => {
-            console.log(response);
+            this.dialogRef.close({ update: true, ...response });
             this.isLoading = false;
           });
         } catch (error) {
@@ -101,7 +103,7 @@ export class UploadFileBase {
     );
   }
 
-  private addGpxToMap(featureCollection: any): Promise<any> {
+  private addGpxToMap(featureCollection: any): Promise<FileLayerResponse> {
     const layerName = featureCollection.layers[0].featureSet.features[0].attributes.name;
     const title = `GPX - ${layerName}`;
     let graphics: Graphic[] = [];
@@ -134,7 +136,7 @@ export class UploadFileBase {
     return Promise.resolve({ layers, graphics });
   }
 
-  private addShapefileToMap(featureCollection: any): Promise<any> {
+  private addShapefileToMap(featureCollection: any): Promise<FileLayerResponse> {
     let graphics: Graphic[] = [];
     const layersInOrder = this.sortLayers(featureCollection.layers);
 
@@ -175,7 +177,7 @@ export class UploadFileBase {
     return layersInOrder;
   }
 
-  private addGeoJsonToMap(featureCollection: any): Promise<any> {
+  private addGeoJsonToMap(featureCollection: any): Promise<FileLayerResponse> {
     try {
       let graphics: Graphic[] = [];
       const source = featureCollection.features.map((feature: GeoJSON) => {

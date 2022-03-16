@@ -9,6 +9,8 @@ import ScaleBar from '@arcgis/core/widgets/ScaleBar';
 import Search from '@arcgis/core/widgets/Search';
 import * as intl from '@arcgis/core/intl';
 
+import { FileLayerResponse } from '../../helpers/interfaces/file-layer-response';
+
 export class ViewerBase {
   map = new Map({ basemap: 'streets-vector' });
   view!: MapView;
@@ -34,6 +36,12 @@ export class ViewerBase {
     });
 
     this.renderWidgets();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addLayerToMap({ layers, graphics }: FileLayerResponse): void {
+    this.map.addMany(layers);
+    this.view.goTo(graphics);
   }
 
   private renderWidgets(): void {

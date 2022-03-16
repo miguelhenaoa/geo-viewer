@@ -15,8 +15,8 @@ export class UploadFileComponent extends UploadFileBase {
   formats = FORMATS;
   hasFile = false;
 
-  constructor(private dialogRef: DynamicDialogRef, private config: DynamicDialogConfig) {
-    super();
+  constructor(private ref: DynamicDialogRef, private config: DynamicDialogConfig) {
+    super(ref);
     const type: TypeLayer = this.config.data?.type;
     this.format = this.formats[type];
   }
@@ -63,6 +63,6 @@ export class UploadFileComponent extends UploadFileBase {
   }
 
   onClose(): void {
-    this.dialogRef.close();
+    this.ref.close({ update: false });
   }
 }
