@@ -41,7 +41,9 @@ export class ViewerBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addLayerToMap({ layers, graphics }: FileLayerResponse): void {
     this.map.addMany(layers);
-    this.view.goTo(graphics);
+    if (graphics) {
+      this.view.goTo(graphics);
+    }
   }
 
   private renderWidgets(): void {

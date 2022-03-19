@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Type } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
@@ -6,6 +6,7 @@ import { DialogSize } from '../../../../helpers/enums/dialog-size';
 import { FileLayerResponse } from '../../../../helpers/interfaces/file-layer-response';
 import { TypeLayer } from '../../../../helpers/interfaces/layer-format';
 import { UploadFileComponent } from '../upload-file/upload-file.component';
+import { UploadServiceComponent } from '../upload-service/upload-service.component';
 
 @Component({
   selector: 'app-menu',
@@ -30,22 +31,22 @@ export class MenuComponent implements OnInit {
         label: 'Cargar capas',
         icon: 'esri-icon-upload',
         items: [
-          { label: 'ShapeFile', icon, command: () => this.openModal(TypeLayer.ShapeFile) },
+          { label: 'ShapeFile', icon, command: () => this.openModal(TypeLayer.ShapeFile, UploadFileComponent) },
           { label: 'Archivo CSV', icon },
-          { label: 'Archivo GPX', icon, command: () => this.openModal(TypeLayer.Gpx) },
-          { label: 'Archivo GeoJSON', icon, command: () => this.openModal(TypeLayer.GeoJSON) },
-          { label: 'Servicio KML', icon },
-          { label: 'Servicio WMS', icon },
-          { label: 'Servicio GeoJSON', icon },
-          { label: 'Servicio CSV', icon }
+          { label: 'Archivo GPX', icon, command: () => this.openModal(TypeLayer.Gpx, UploadFileComponent) },
+          { label: 'Archivo GeoJSON', icon, command: () => this.openModal(TypeLayer.GeoJSON, UploadFileComponent) },
+          { label: 'Servicio KML', icon, command: () => this.openModal(TypeLayer.Kml, UploadServiceComponent) },
+          { label: 'Servicio WMS', icon, command: () => this.openModal(TypeLayer.Wms, UploadServiceComponent) },
+          { label: 'Servicio GeoJSON', icon, command: () => this.openModal(TypeLayer.GeoJSON, UploadServiceComponent) },
+          { label: 'Servicio CSV', icon, command: () => this.openModal(TypeLayer.Csv, UploadServiceComponent) }
         ]
       }
     ];
   }
 
-  openModal(type: TypeLayer): void {
-    const dialog = this.dialogService.open(UploadFileComponent, {
-      header: 'Cargar un archivo',
+  openModal(type: TypeLayer, component: Type<any>): void {
+    const dialog = this.dialogService.open(component, {
+      header: 'Cargar capa',
       width: DialogSize.XSmall,
       closable: false,
       data: { type }
