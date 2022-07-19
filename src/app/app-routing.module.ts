@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'viewer' },
   {
-    path: 'viewer',
+    path: '',
     loadChildren: () => import('app/screens/viewer/viewer.module').then(m => m.ViewerModule)
   }
 ];
