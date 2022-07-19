@@ -16,6 +16,7 @@ import { UploadServiceComponent } from '../upload-service/upload-service.compone
 })
 export class MenuComponent implements OnInit {
   @Output() addLayer = new EventEmitter<FileLayerResponse>();
+  @Output() openMeasurementTools = new EventEmitter<any>();
   items!: MenuItem[];
 
   constructor(public dialogService: DialogService) {}
@@ -39,6 +40,13 @@ export class MenuComponent implements OnInit {
           { label: 'Servicio WMS', icon, command: () => this.openModal(TypeLayer.Wms, UploadServiceComponent) },
           { label: 'Servicio GeoJSON', icon, command: () => this.openModal(TypeLayer.GeoJSON, UploadServiceComponent) },
           { label: 'Servicio CSV', icon, command: () => this.openModal(TypeLayer.Csv, UploadServiceComponent) }
+        ]
+      },
+      {
+        label: 'Herramientas',
+        icon: 'esri-icon-experimental',
+        items: [
+          { label: 'Herramientas de medición', icon: 'handyman', command: () => this.openMeasurementTools.emit() }
         ]
       }
     ];

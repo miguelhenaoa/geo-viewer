@@ -5,4 +5,15 @@
   id="menu"
   class="esri-widget menu"
   (addLayer)="addLayerToMap($event)"
+  (openMeasurementTools)="openMeasurementTools()"
 ></app-menu>
+
+<p-dialog
+  header="Herramientas de medición"
+  [(visible)]="showMeasurementTools"
+  [resizable]="false"
+  [focusOnShow]="false"
+  position="topright"
+>
+  <app-measurement-tools [view]="view"></app-measurement-tools>
+</p-dialog>

@@ -8,11 +8,17 @@ import { ViewerBase } from './viewer-base';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent extends ViewerBase implements OnInit {
+  showMeasurementTools = false;
+
   constructor() {
     super();
   }
 
   ngOnInit(): void {
     this.initializeMap();
+  }
+
+  openMeasurementTools(): void {
+    this.showMeasurementTools = true;
   }
 }
