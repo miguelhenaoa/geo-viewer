@@ -1,0 +1,22 @@
+<div class="tools">
+  <mat-tab-group mat-align-tabs="center" (selectedIndexChange)="change($event)">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="esri-icon-measure-area" title="Área"></i>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="esri-icon-measure-line" title="Distancia"></i>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="esri-icon-map-pin" title="Ubicación"></i>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  <app-tool>
+    <div id="measureWidget"></div>
+  </app-tool>
+</div>

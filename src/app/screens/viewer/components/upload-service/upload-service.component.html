@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup">
+  <mat-form-field appearance="outline">
+    <mat-label>URL</mat-label>
+    <input type="url" matInput formControlName="url">
+  </mat-form-field>
+</form>
+<div class="actions" fxLayout="flex" fxLayoutAlign="flex-end center" fxLayoutGap="5px">
+  <app-button-spinner *ngIf="isLoading"></app-button-spinner>
+  <button
+    type="button"
+    mat-button
+    color="primary"
+    [disabled]="isLoading"
+    (click)="onClose()"
+  >CANCELAR</button>
+  <button
+    type="button"
+    mat-raised-button
+    color="primary"
+    [disabled]="!canSubmit || isLoading"
+    (click)="onSave()"
+  >CARGAR</button>
+</div>

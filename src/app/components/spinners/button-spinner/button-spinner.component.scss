@@ -1,0 +1,9 @@
+$size: 32px;
+
+:host {
+  display: inline-block;
+  height: $size;
+  overflow: hidden;
+  position: relative;
+  width: $size;
+}
