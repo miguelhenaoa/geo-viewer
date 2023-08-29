@@ -53,7 +53,7 @@ export class MeasurementToolsComponent implements AfterViewInit {
       container,
       unit: 'hectares'
     });
-    areaWidget.viewModel.start();
+    // areaWidget.viewModel.start();
     this.activeWidget = areaWidget;
   }
 

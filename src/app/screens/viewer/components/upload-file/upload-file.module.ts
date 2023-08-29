@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { MatInputModule } from '@angular/material/input';
 
-import { UploadFileComponent } from './upload-file.component';
 import { SpinnerModule } from '../../../../components/spinners/spinner.module';
+import { UploadFileComponent } from './upload-file.component';
 
 @NgModule({
   declarations: [UploadFileComponent],
@@ -17,7 +19,9 @@ import { SpinnerModule } from '../../../../components/spinners/spinner.module';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    SpinnerModule
+    SpinnerModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [UploadFileComponent]
 })

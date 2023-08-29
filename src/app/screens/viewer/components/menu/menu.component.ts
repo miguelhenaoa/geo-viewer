@@ -33,20 +33,13 @@ export class MenuComponent implements OnInit {
         icon: 'esri-icon-upload',
         items: [
           { label: 'ShapeFile', icon, command: () => this.openModal(TypeLayer.ShapeFile, UploadFileComponent) },
-          { label: 'Archivo CSV', icon },
+          // { label: 'Archivo CSV', icon },
           { label: 'Archivo GPX', icon, command: () => this.openModal(TypeLayer.Gpx, UploadFileComponent) },
           { label: 'Archivo GeoJSON', icon, command: () => this.openModal(TypeLayer.GeoJSON, UploadFileComponent) },
           { label: 'Servicio KML', icon, command: () => this.openModal(TypeLayer.Kml, UploadServiceComponent) },
           { label: 'Servicio WMS', icon, command: () => this.openModal(TypeLayer.Wms, UploadServiceComponent) },
           { label: 'Servicio GeoJSON', icon, command: () => this.openModal(TypeLayer.GeoJSON, UploadServiceComponent) },
           { label: 'Servicio CSV', icon, command: () => this.openModal(TypeLayer.Csv, UploadServiceComponent) }
-        ]
-      },
-      {
-        label: 'Herramientas',
-        icon: 'esri-icon-experimental',
-        items: [
-          { label: 'Herramientas de medición', icon: 'handyman', command: () => this.openMeasurementTools.emit() }
         ]
       }
     ];

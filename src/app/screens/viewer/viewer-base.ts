@@ -15,8 +15,8 @@ export class ViewerBase {
   map = new Map({ basemap: 'streets-vector' });
   view!: MapView;
 
-  readonly latitude = 4.6486259;
-  readonly longitude = -74.2478963;
+  readonly latitude = 5.39106;
+  readonly longitude = -75.63569;
 
   initializeMap(): void {
     intl.setLocale('es');
@@ -31,7 +31,7 @@ export class ViewerBase {
           breakpoint: false
         }
       },
-      zoom: 5,
+      zoom: 8,
       map: this.map
     });
 

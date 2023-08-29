@@ -27,11 +27,12 @@ export class UploadFileBase {
   }
 
   loadGeoJSONLayer(file: File): void {
+    const fileName = file.name.split('.').shift();
     const reader = new FileReader();
     reader.onload = () => {
       const result: string | undefined = reader.result?.toString();
       const featureCollection = JSON.parse(<string>result);
-      this.addGeoJsonToMap(featureCollection).then(
+      this.addGeoJsonToMap(featureCollection, fileName).then(
         response => {
           this.dialogRef.close({ update: true, ...response });
           this.isLoading = false;
@@ -141,10 +142,7 @@ export class UploadFileBase {
     const layersInOrder = this.sortLayers(featureCollection.layers);
 
     const layers = layersInOrder.map(layer => {
-      const title =
-        layer.layerDefinition.name === 'Analisis_Cobertura'
-          ? `Shape - Analisis_Departamento`
-          : `Shape - ${layer.layerDefinition.name}`;
+      const title = `Shape - ${layer.layerDefinition.name}`;
       const source = layer.featureSet.features.map((feature: Object) => {
         return Graphic.fromJSON(feature);
       });
@@ -166,18 +164,7 @@ export class UploadFileBase {
     return Promise.resolve({ layers, graphics });
   }
 
-  sortLayers(layers: Array<any>): Array<any> {
-    const layersInOrder: any[] = [];
-    layers.map(layer => {
-      const geometryType = layer.featureSet.geometryType;
-      geometryType.includes('Point') || geometryType.includes('Polyline')
-        ? layersInOrder.push(layer)
-        : layersInOrder.unshift(layer);
-    });
-    return layersInOrder;
-  }
-
-  private addGeoJsonToMap(featureCollection: any): Promise<FileLayerResponse> {
+  private addGeoJsonToMap(featureCollection: any, title: string = 'GeoJSON'): Promise<FileLayerResponse> {
     try {
       let graphics: Graphic[] = [];
       const source = featureCollection.features.map((feature: GeoJSON) => {
@@ -196,12 +183,23 @@ export class UploadFileBase {
         copyright: '',
         fields,
         source: graphics,
-        title: `GeoJSON`
+        title
       });
 
       return Promise.resolve({ layers: [feature], graphics });
     } catch (error) {
       return Promise.reject(error);
     }
+  }
+
+  private sortLayers(layers: Array<any>): Array<any> {
+    const layersInOrder: any[] = [];
+    layers.map(layer => {
+      const geometryType = layer.featureSet.geometryType;
+      geometryType.includes('Point') || geometryType.includes('Polyline')
+        ? layersInOrder.push(layer)
+        : layersInOrder.unshift(layer);
+    });
+    return layersInOrder;
   }
 }
